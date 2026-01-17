@@ -22,7 +22,7 @@ final class Event {
     
     init(id: EventID = EventID(), kind: EventKind, eventTime: Date, recordedAt: Date = Date(), source: EventSource, tags: [String] = []) {
         self.id = id.value
-        self.kindData = try! JSONEncoder().encode(kind)
+        self.kindData = EventKindCodec.encode(kind)
         self.eventTime = eventTime
         self.recordedAt = recordedAt
         self.source = source
@@ -30,6 +30,8 @@ final class Event {
     }
     
     var kind: EventKind {
-        try! JSONDecoder().decode(EventKind.self, from: kindData)
+        EventKindCodec.decode(kindData)
     }
+    
 }
+
