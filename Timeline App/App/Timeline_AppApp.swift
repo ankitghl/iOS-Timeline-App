@@ -15,10 +15,25 @@ struct Timeline_AppApp: App {
     init() {
         let context = ModelContext(container)
         let writer = SwiftDataEventWriter(context: context)
+        let reader = SwiftDataEventReader(context: context)
+        let query = EventQuery(reader: reader)
         
-        let event = EventFactory.note(text: "First event 🎉")
+        let event1 = EventFactory.note(
+            text: "Morning note",
+            eventTime: Date().addingTimeInterval(-3600)
+        )
+
+        let event2 = EventFactory.mood(
+            score: 4,
+            eventTime: Date()
+        )
+
+
+        try? writer.append(event1)
+        try? writer.append(event2)
         
-        try? writer.append(event)
+        let latest = try? query.latest(limit: 10)
+        print("Fetched events:", latest?.count ?? 0)
     }
     
     var body: some Scene {
