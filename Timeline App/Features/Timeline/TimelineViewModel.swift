@@ -12,11 +12,11 @@ import Observation
 final class TimelineViewModel {
     private let query: EventQuery
     
-    private(set) var events: [Event] = []
+    private(set) var dailySummaries: [DailyEventSummary] = []
     private(set) var isLoading: Bool = false
     
     private var offset = 0
-    private var pageSize = 20
+    private var pageSize = 50
     
     init(query: EventQuery) {
         self.query = query
@@ -24,7 +24,7 @@ final class TimelineViewModel {
     
     func loadInitial() {
         offset = 0
-        events.removeAll()
+        dailySummaries.removeAll()
         loadMore()
     }
     
@@ -33,9 +33,9 @@ final class TimelineViewModel {
         isLoading = true
         
         do {
-            let newEvents = try query.latest(limit: pageSize, offset: offset)
-            events.append(contentsOf: newEvents)
-            offset += newEvents.count
+            let newSummaries = try query.dailySummaries(limit: pageSize, offset: offset)
+            dailySummaries.append(contentsOf: newSummaries)
+            offset += pageSize
         } catch {
             
         }

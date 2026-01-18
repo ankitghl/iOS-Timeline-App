@@ -12,18 +12,22 @@ struct TimelineView: View {
     @State private var vm: TimelineViewModel
     
     init(vm: TimelineViewModel) {
-        self.vm = vm
+        _vm = State(initialValue: vm)
     }
     
     var body: some View {
         List {
-            ForEach(vm.events) { event in
-                EventRowRenderer.view(for: event)
-                    .onAppear {
-                        if event == vm.events.last {
-                            vm.loadMore()
-                        }
+            ForEach(vm.dailySummaries) { summary in
+                
+                Section {
+                    ForEach(summary.events) { event in
+                        EventRowRenderer.view(for: event)
                     }
+                } header: {
+                    Text(summary.date, style: .date)
+                        .font(.headline)
+                        .foregroundStyle(.secondary)
+                }
             }
             
             if vm.isLoading {
