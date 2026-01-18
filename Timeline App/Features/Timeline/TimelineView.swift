@@ -43,12 +43,20 @@ struct TimelineView: View {
     }
 }
 
-#Preview {
-    let reader = MockEventReader()
-    let query = EventQuery(reader: reader)
-    let vm = TimelineViewModel(query: query)
-    
+#Preview("Normal Timeline") {
     NavigationStack {
-        TimelineView(vm: vm)
+        TimelineView(
+            vm: TimelinePreviewFactory.makeViewModel()
+        )
+    }
+}
+
+#Preview("Dense Day") {
+    NavigationStack {
+        TimelineView(
+            vm: TimelinePreviewFactory.makeViewModel(
+                events: EventPreviewData.denseDay()
+            )
+        )
     }
 }

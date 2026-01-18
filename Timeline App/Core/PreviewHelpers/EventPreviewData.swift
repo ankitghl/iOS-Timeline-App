@@ -1,15 +1,15 @@
 //
-//  Timeline+Preview.swift
+//  EventPreviewData.swift
 //  Timeline App
 //
-//  Created by Ankit Gohel on 18/01/26.
+//  Created by Ankit Gohel on 19/01/26.
 //
 
 import Foundation
 
-struct MockEventReader: EventReader {
-    
-    func events(from start: Date?, to end: Date?, limit: Int, offset: Int) throws -> [Event] {
+enum EventPreviewData {
+
+    static func smallTimeline() -> [Event] {
         [
             EventFactory.note(
                 text: "Read SwiftUI architecture notes",
@@ -28,5 +28,14 @@ struct MockEventReader: EventReader {
                 eventTime: Date()
             )
         ]
+    }
+
+    static func denseDay() -> [Event] {
+        (0..<20).map {
+            EventFactory.note(
+                text: "Note \($0)",
+                eventTime: Date().addingTimeInterval(TimeInterval(-$0 * 300))
+            )
+        }
     }
 }
