@@ -24,7 +24,7 @@ struct TimelineView: View {
                         EventRowRenderer.view(for: event)
                     }
                 } header: {
-                    Text(summary.date, style: .date)
+                    Text( RelativeDateLabel.title(for: summary.date) )
                         .font(.headline)
                         .foregroundStyle(.secondary)
                 }
