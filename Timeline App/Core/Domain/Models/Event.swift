@@ -8,6 +8,10 @@
 import Foundation
 import SwiftData
 
+/// Event is an immutable, append-only fact.
+/// Once persisted, it must never be mutated.
+/// Corrections or changes are represented as new events.
+
 @Model
 final class Event {
     
@@ -15,8 +19,8 @@ final class Event {
     var id: UUID
     
     var kindData: Data
-    var eventTime: Date
-    var recordedAt: Date
+    var eventTime: Date ///When the event semantically occurred.
+    var recordedAt: Date /// When this device observed the event. Must never be user-controlled.
     var source: EventSource
     var tags:[String]
     

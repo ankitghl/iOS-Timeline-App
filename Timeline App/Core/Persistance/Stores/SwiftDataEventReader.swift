@@ -33,11 +33,7 @@ final class SwiftDataEventReader: EventReader {
             }
         }
         
-        let descriptor = FetchDescriptor<Event>(predicate: predicate, sortBy: [
-            SortDescriptor(\.eventTime, order: .reverse),
-            SortDescriptor(\.recordedAt, order: .reverse)
-        ]
-        )
+        let descriptor = FetchDescriptor<Event>(predicate: predicate, sortBy: EventOrdering.sortDescriptors)
         
         var fetchDescriptor = descriptor
         fetchDescriptor.fetchLimit = limit

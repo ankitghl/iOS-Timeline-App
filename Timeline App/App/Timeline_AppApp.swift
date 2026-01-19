@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct Timeline_AppApp: App {
-    var container = PersistentController.makeContainer()
+    let container = PersistentController.makeContainer()
     
 //    init() {
 //        let context = ModelContext(container)
@@ -35,6 +35,20 @@ struct Timeline_AppApp: App {
 //        let latest = try? query.latest(limit: 10)
 //        print("Fetched events:", latest?.count ?? 0)
 //    }
+    
+    init() {
+        #if DEBUG
+        let container = self.container
+        DispatchQueue.main.asyncAfter(deadline: .now() + 9) {
+            let context = ModelContext(container)
+            LateEventSimulator.insertLateEvent(
+                context: context,
+                daysInPast: 20
+            )
+        }
+        #endif
+    }
+    
     
     var body: some Scene {
         WindowGroup {
